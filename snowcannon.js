@@ -26,7 +26,7 @@ var cluster = require('cluster');
 var measured = require('measured');
 var fluentdSink = require('fluent-logger');
 
-var config = require('./config');
+var config = require(process.argv[2]);
 var cookieManager = require('./libs/cookie-manager');
 var responses = require('./libs/responses');
 var s3Sink = require('./libs/s3-sink');
