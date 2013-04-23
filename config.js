@@ -25,6 +25,9 @@ config.cookie.milliseconds = 31556900000;
 // If undefined it'll just use the FQDN of the host
 config.cookie.domainName = undefined;
 
+// If defined, the cookie will be set on this path
+config.cookie.path = undefined;
+
 /**
  * Which sink will we use for collected events?
  * - s3 means SnowCannon will handle compression and upload to S3 itself

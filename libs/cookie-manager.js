@@ -28,13 +28,15 @@ cookieManager.getCookies = function(headers) {
  * Returns the cookie contents given the
  * supplied domain name
  */
-cookieManager.getCookieContents = function(domainName) {
-	
+cookieManager.getCookieContents = function(domainName, path) {
+    var contents = '';
 	if (domainName !== undefined) {
-		return 'Domain=' + domainName + ';';
-	} else {
-		return '';
+		contents += 'Domain=' + domainName + '; ';
 	}
+    if (path !== undefined) {
+        contents += 'Path=' + path + '; ';
+    }
+    return contents;
 }
 
 /**

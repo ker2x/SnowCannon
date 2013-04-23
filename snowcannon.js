@@ -161,8 +161,7 @@ if (cluster.isMaster) {
             case '/ice.png':
             case '/i':
                 var cookies = cookieManager.getCookies(request.headers);
-                var cookieContents = cookieManager.getCookieContents(config.cookie.domainName);
-                
+                var cookieContents = cookieManager.getCookieContents(config.cookie.domainName, config.cookie.path);
                 var event = buildEvent(request, cookies, now);
                 logToSink(event);
 
