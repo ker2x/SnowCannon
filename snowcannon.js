@@ -26,6 +26,9 @@ var cluster = require('cluster');
 var measured = require('measured');
 var fluentdSink = require('fluent-logger');
 
+var Producer = require('prozess').Producer;
+var producer = null;
+
 var config = require(process.argv[2]);
 var cookieManager = require('./libs/cookie-manager');
 var responses = require('./libs/responses');
@@ -62,6 +65,12 @@ var logToSink = function(message) {
                 config.sink.fluentd.subTag,
                 json
             );
+        case 'kafka':
+            producer.send(json, function(err) {
+                if (err) {
+                    console.error("Error while sending to Kafka: " + err);
+                }
+            });
         default:
     }
 }
@@ -70,8 +79,7 @@ var logToSink = function(message) {
  * Build the event to log
  */
 var buildEvent = function(request, cookies, timestamp) {
-    var event = [];    
-    event.push( {
+    return {
         "hostname" : hostname,
         "date" : timestamp.split('T')[0],
         "time" : timestamp.split('T')[1].split('.')[0],
@@ -79,9 +87,9 @@ var buildEvent = function(request, cookies, timestamp) {
         "url" : request.url,
         "cookies" : cookies,
         "headers" : request.headers,
-        "collector" : collector
-    });
-    return event;
+        "collector" : collector,
+        "tag": config.sink.tag
+    };
 }
 
 /**
@@ -105,6 +113,10 @@ switch(config.sink.out) {
             port: config.sink.fluentd.port,
             timeout: config.sink.fluentd.timeout
         });
+        break;
+    case 'kafka':
+        producer = new Producer(config.sink.kafka.topic, { host: config.sink.kafka.host });
+        producer.connect();
         break;
     default:
 }

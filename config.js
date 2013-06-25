@@ -5,13 +5,14 @@ config.cookie = {};
 config.sink = {};
 config.sink.s3 = {};
 config.sink.fluentd = {};
+config.sink.kafka = {};
 
 /**
  * Server configuration
  */
 
 // HTTP port
-config.server.httpPort = 80;
+config.server.httpPort = 8080;
 
 /**
  * Cookie configuration
@@ -34,7 +35,15 @@ config.cookie.path = undefined;
  * - stdout means SnowCannon will log events to stdout. Use your process control system (e.g. supervisord, daemontools, Angel) to handle the stdout eventstream
  * - fluentd means SnowCannon will use Fluentd (http://fluentd.org/) to collect events
  */
-config.sink.out = "stdout"; // Or "s3" or "fluentd"
+
+config.sink.tag = "sexystyle";
+config.sink.out = "kafka"; // Or "s3" or "fluentd"
+
+/**
+ * Kafka configuration
+ */
+config.sink.kafka.topic = "snowcannon";
+config.sink.kafka.host = "localhost";
 
 /*
  * S3 configuration
@@ -67,7 +76,7 @@ config.sink.fluentd.timeout = 3.0;
 config.sink.fluentd.mainTag = "snowplow";
 
 // What secondary tag should we use?
-config.sink.fluentd.subTag = "event"
+config.sink.fluentd.subTag = "sexystyle"
 
 /**
  * All-important export of config.
