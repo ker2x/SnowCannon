@@ -69,6 +69,7 @@ var logToSink = function(message) {
             producer.send(json, function(err) {
                 if (err) {
                     console.error("Error while sending to Kafka: " + err);
+                    throw err;
                 }
             });
         default:
@@ -81,8 +82,7 @@ var logToSink = function(message) {
 var buildEvent = function(request, cookies, timestamp) {
     return {
         "hostname" : hostname,
-        "date" : timestamp.split('T')[0],
-        "time" : timestamp.split('T')[1].split('.')[0],
+        "timestamp" : timestamp,
         "uuid" : cookies.sp,
         "url" : request.url,
         "cookies" : cookies,
