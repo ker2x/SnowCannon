@@ -65,6 +65,7 @@ var logToSink = function(message) {
                 config.sink.fluentd.subTag,
                 json
             );
+            break;
         case 'kafka':
             producer.send(json, function(err) {
                 if (err) {
