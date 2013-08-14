@@ -189,6 +189,12 @@ if (cluster.isMaster) {
                 responses.sendStatus(response, hostname, collector, numCPUs, monitoring);
                 break;
 
+            case '/crossdomain.xml':
+                response.writeHead(200, {"Content-Type": "text/x-cross-domain-policy"});
+                response.write('<?xml version="1.0"?>\n<!DOCTYPE cross-domain-policy SYSTEM "http://www.adobe.com/xml/dtds/cross-domain-policy.dtd">\n<cross-domain-policy><allow-access-from domain="*" /></cross-domain-policy>');
+                response.end();
+                break;
+
             default:
                 responses.send404(response);
         }
